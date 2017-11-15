@@ -1,0 +1,6 @@
+<vos:transfer xmlns:vos="http://www.ivoa.net/xml/VOSpace/v2.0">
+    <vos:target>vos://esavo!vospace/platest</vos:target>
+    <vos:direction>pushToVoSpace</vos:direction>
+    <vos:view uri="vos://esavo!vospace/core#fits"/>
+    <vos:protocol uri="vos://esavo!vospace/core#httpput"/>
+</vos:transfer>
