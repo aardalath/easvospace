@@ -17,7 +17,7 @@ To test the two packages provided, just follow these steps:
 
 2. Run the followig in the console:
 
-    $ python3 query_and_save_to_vospace.py
+       $ python3 query_and_save_to_vospace.py
 
 A file with the name provided will be saved into the location your selected,
 in your VOSpace account.
