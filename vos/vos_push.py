@@ -1,13 +1,37 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""EAS_Query class from package eas
+
+This module incorporates almost without modification the code provided
+by the ESDC Euclid team to store some content in a folder/file in the
+user VOSpace account.
+
+Usage:
+    The sequence of commands to perform a query would be
+     1. Create the VOSpace_Push object
+     2. Call the ``save_to_file`` method to store something in a
+        VOSpace folder/file
+
+    Please, have a look at the file ``query_and_save_to_vospace.py'' script for
+    an example.  This example can be executed with::
+
+        $ python query_and_save_to_vospace.py
+
+"""
+
+VERSION = '0.1.1'
+
+__author__ = "jcgonzalez" # Refactoring from ESDC Euclid Team code
+__credits__ = ["ESDC Euclid Team"]
+__version__ = VERSION
+__email__ = "jcgonzalez@sciops.esa.int"
+__status__ = "Prototype" # Prototype | Development | Production
+
 
 from time import sleep
-from threading import Thread
 from xml.dom.minidom import parseString
 
-import urllib.parse as urlparse
-import urllib.request as urlrequest
-import requests, ssl, base64, json
+import requests
 import sys
 
 
@@ -19,11 +43,20 @@ class VOSpace_Push(object):
     VOSpace_Url = 'https://vospace.esac.esa.int/vospace'
 
     def __init__(self):
+        """Initialize object (class instance) attributes."""
         self.vospace_user = ""
         self.vospace_pwd = ""
         self.vospace_auth_set = False
 
+    def set_auth(self, user, pwd):
+        """Specifies the VOSpace user/passsword credentials to be used."""
+        self.vospace_user = user
+        self.vospace_pwd = pwd
+        self.vospace_auth_set = True
+
     def save_to_file(self, folder, file, data, user, pwd):
+        """Makes a storage request, followed by the sending the actual data to be
+        stored in the desired folder/file.  The VOSpace user credentials are needed."""
         if user is None or pwd is None:
             if not self.vospace_auth_set:
                 print ("ERROR: VOSpace credentials not provided")

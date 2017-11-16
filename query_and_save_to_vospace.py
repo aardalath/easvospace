@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""Sample usage of EAS_Query and VOSpace_Push classes
 
-from time import sleep
-from threading import Thread
-from xml.dom.minidom import parseString
+Usage:
+    Please, have a look at the packages ``eas`` and ``vos``.  This example can
+    be executed with::
+
+        $ python query_and_save_to_vospace.py
+
+"""
+
 
 from eas.eas_qry import EAS_Query
 from vos.vos_push import VOSpace_Push
 
-import urllib.parse as urlparse
-import urllib.request as urlrequest
-import requests, ssl, base64, json
 import sys
 
 
