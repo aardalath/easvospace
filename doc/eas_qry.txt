@@ -1,0 +1,109 @@
+Help on module eas_qry:
+
+NAME
+    eas_qry - EAS_Query class from package eas
+
+DESCRIPTION
+    This module incorporates almost without modification the code provided
+    by the ESDC Euclid team to preform am asynchronous query to the archives
+    via TAP+ interface.
+    
+    Usage:
+        The sequence of commands to perform a query would be
+         1. Create the EAS_Query object
+         2. Define the query with the ``setQuery()`` method
+         3. Call the ``run()`` method, checking if the result is ``True``
+         4. Retrieve the results with the ``results()`` method
+    
+        Please, have a look at the file ``query_and_save_to_vospace.py'' script for
+        an example.  This example can be executed with::
+    
+            $ python query_and_save_to_vospace.py
+
+CLASSES
+    builtins.object
+        EAS_Query
+    
+    class EAS_Query(builtins.object)
+     |  Main class to encapsulate query jobs for EAS
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self)
+     |      Initialize object (class instance) attributes.
+     |  
+     |  exit_info(self)
+     |      Return exit information in case the run() method reported a failure.
+     |  
+     |  results(self)
+     |      Returns the results from the last query executed.
+     |  
+     |  results_as_fits_table(self, header=None)
+     |      Takes the CSV results, saves them in a temp. dile, and then retrieves
+     |      the entire content.
+     |  
+     |  run(self)
+     |      Launch the last defined query.  The execution is done in a separate thread.
+     |  
+     |  runUntilFinished(self)
+     |      Performs the monitoring of the query requested, and retrieves the
+     |      results for later use.
+     |  
+     |  save_results_as_csv(self, file_name)
+     |      Takes results, already as CSV data, and store them in a local file
+     |  
+     |  save_results_as_fits_table(self, file_name, header=None)
+     |      Takes the CSV results, convert them to an ascii.table.Table and outputs
+     |      a pyfits.hdu.table.BinTableHDU, creating a blank header if no header
+     |      is provided.  The result is stored in a FITS file.
+     |  
+     |  setQuery(self, adqlQry, name='myQuery', desc='This is my query')
+     |      Define the query.  Multiple definitions are possible, but when run()
+     |      is invoked, only the last one will be launched.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  Content_Type = 'application/x-www-form-urlencoded'
+     |  
+     |  EAS_TAP_URL = 'http://eas.esac.esa.int/tap-dev/tap/async'
+     |  
+     |  MIME_Text_Plain = 'text/plain'
+
+FUNCTIONS
+    main()
+        Sample usage of the EAS_Query class
+    
+    sleep(...)
+        sleep(seconds)
+        
+        Delay execution for a given number of seconds.  The argument may be
+        a floating point number for subsecond precision.
+
+DATA
+    VERSION = '0.1.1'
+    __email__ = 'jcgonzalez@sciops.esa.int'
+    __status__ = 'Prototype'
+
+VERSION
+    0.1.1
+
+AUTHOR
+    jcgonzalez
+
+CREDITS
+    ['ESDC Euclid Team']
+
+FILE
+    /home/eucops/Work/Euclid/EAStoVOSpace/eas/eas_qry.py
+
+
