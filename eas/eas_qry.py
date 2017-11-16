@@ -32,7 +32,10 @@ __status__ = "Prototype" # Prototype | Development | Production
 from time import sleep
 from threading import Thread
 from xml.dom.minidom import parseString
+from astropy.io import ascii,fits
 
+import os, tempfile
+import numpy as np
 import urllib.parse as urlparse
 import urllib.request as urlrequest
 
@@ -120,6 +123,44 @@ class EAS_Query(object):
         results_data = self.connection.read()
         self.connection.close()
         return results_data
+        
+    def save_results_as_csv(self, file_name):
+        """Takes results, already as CSV data, and store them in a local file"""
+        with open(file_name, "wb") as csv_file:
+            # Read the whole file at once
+            csv_file.write(self.results())
+
+    def save_results_as_fits_table(self, file_name, header=None):
+        """Takes the CSV results, convert them to an ascii.table.Table and outputs
+        a pyfits.hdu.table.BinTableHDU, creating a blank header if no header
+        is provided.  The result is stored in a FITS file."""
+        if header is None:
+            prihdr = fits.Header()
+            prihdu = fits.PrimaryHDU(header=prihdr)
+        else:
+            prihdu = fits.PrimaryHDU(header=header)
+
+        csv_file_name = file_name + ".csv"
+        self.save_results_as_csv(csv_file_name)
+        tab = ascii.read(csv_file_name)
+        os.unlink(csv_file_name)
+
+        table_hdu = fits.BinTableHDU.from_columns(np.array(tab.filled()))
+        myfitstable = fits.HDUList([prihdu, table_hdu])
+        myfitstable.writeto(file_name, overwrite=True)
+
+    def results_as_fits_table(self, header=None):
+        """Takes the CSV results, saves them in a temp. dile, and then retrieves
+        the entire content."""
+        tmpfile = tempfile.NamedTemporaryFile(delete=False)
+        self.save_results_as_fits_table(tmpfile.name)
+
+        with open(tmpfile.name, "rb") as fits_file:
+            # Read the whole file at once
+            fits_data = fits_file.read()
+
+        os.unlink(tmpfile.name)
+        return fits_data
 
 
 def main():

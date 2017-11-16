@@ -25,6 +25,9 @@ def exec_query(adql, folder, file_name, user, pwd):
         print("ERROR while executing the query:\n{}".format(adql))
         sys.exit(1)
 
+    easHdl.save_results_as_fits_table("results.fits")
+    fits_data = easHdl.results_as_fits_table()
+
     #print(easHdl.results())
     vos = VOSpace_Push()
     if not vos.save_to_file(folder=folder, file=file_name,
@@ -32,6 +35,14 @@ def exec_query(adql, folder, file_name, user, pwd):
                             user=user, pwd=pwd):
         print("ERROR while storing query results in VOSpace")
         sys.exit(2)
+
+    vos.save_to_file(folder=folder, file=file_name + ".1.fits",
+                     content=fits_data,
+                     user=user, pwd=pwd)
+
+    vos.save_file(folder=folder, file=file_name + ".2.fits",
+                  local_file="results.fits",
+                  user=user, pwd=pwd)
 
     print("File '{}' with query results stored in your VOSpace folder {}".format(file_name, folder))
 
@@ -45,7 +56,7 @@ def main():
                                      "CIRCLE('ICRS',16.41683,4.90781, 26)) " +
                     "ORDER BY dist ASC", 
                folder='queries', file_name='my_query_results.csv', 
-               user='myuser', pwd='mypasswd')
+               user='jgonza04', pwd='pr07Eom1c$')
 
 
 if __name__ == '__main__':

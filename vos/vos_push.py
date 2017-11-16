@@ -42,6 +42,13 @@ class VOSpace_Push(object):
 
     VOSpace_Url = 'https://vospace.esac.esa.int/vospace'
 
+    Tx_XML_File = """<vos:transfer xmlns:vos="http://www.ivoa.net/xml/VOSpace/v2.0">
+                        <vos:target>vos://esavo!vospace/{}/{}</vos:target>
+                        <vos:direction>pushToVoSpace</vos:direction>
+                        <vos:view uri="vos://esavo!vospace/core#fits"/>
+                        <vos:protocol uri="vos://esavo!vospace/core#httpput"/>
+                    </vos:transfer>"""
+
     def __init__(self):
         """Initialize object (class instance) attributes."""
         self.vospace_user = ""
@@ -54,7 +61,7 @@ class VOSpace_Push(object):
         self.vospace_pwd = pwd
         self.vospace_auth_set = True
 
-    def save_to_file(self, folder, file, content, user, pwd):
+    def save_to_file(self, folder, file, content, user=None, pwd=None):
         """Makes a storage request, followed by the sending the actual data to be
         stored in the desired folder/file.  The VOSpace user credentials are needed."""
         if user is None or pwd is None:
@@ -73,12 +80,7 @@ class VOSpace_Push(object):
         metadataTransfer = 'transfer_pushi_to_a.xml'  # Contains the path where to store the output file
         toupload = file  # Name of the file to be uploaded in VOSpace
 
-        txData = '''<vos:transfer xmlns:vos="http://www.ivoa.net/xml/VOSpace/v2.0">
-                        <vos:target>vos://esavo!vospace/{}/{}</vos:target>
-                        <vos:direction>pushToVoSpace</vos:direction>
-                        <vos:view uri="vos://esavo!vospace/core#fits"/>
-                        <vos:protocol uri="vos://esavo!vospace/core#httpput"/>
-                    </vos:transfer>'''.format(user,folder)
+        txData = VOSpace_Push.Tx_XML_File.format(user,folder)
         #print(txData + '\n');
         files = {'file': (metadataTransfer, txData)}
 
@@ -131,8 +133,17 @@ class VOSpace_Push(object):
         upload_post.close()
         return result
 
+    def save_file(self, folder, file, local_file, user, pwd):
+        """Makes a storage request, followed by the sending the actual data to be
+        stored in the desired folder/file.  The VOSpace user credentials are needed."""
+        with open(local_file, "rb") as bin_file:
+            # Read the whole file at once
+            bin_data = bin_file.read()
+        return self.save_to_file(folder, file, bin_data, user, pwd)
+
 
 def main():
+    """Sample usage of the VOSpace_Push class"""
     pass
 
 
