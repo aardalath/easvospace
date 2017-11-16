@@ -28,7 +28,7 @@ def exec_query(adql, folder, file_name, user, pwd):
     #print(easHdl.results())
     vos = VOSpace_Push()
     if not vos.save_to_file(folder=folder, file=file_name,
-                            data=easHdl.results(),
+                            content=easHdl.results(),
                             user=user, pwd=pwd):
         print("ERROR while storing query results in VOSpace")
         sys.exit(2)

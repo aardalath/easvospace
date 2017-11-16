@@ -54,7 +54,7 @@ class VOSpace_Push(object):
         self.vospace_pwd = pwd
         self.vospace_auth_set = True
 
-    def save_to_file(self, folder, file, data, user, pwd):
+    def save_to_file(self, folder, file, content, user, pwd):
         """Makes a storage request, followed by the sending the actual data to be
         stored in the desired folder/file.  The VOSpace user credentials are needed."""
         if user is None or pwd is None:
@@ -115,7 +115,7 @@ class VOSpace_Push(object):
         jobId_element = collection.getElementsByTagName('uws:jobId')[0]
         jobId = jobId_element.childNodes[0].data
 
-        files = {'file': (toupload, data)}
+        files = {'file': (toupload, content)}
 
         try:
             upload_post = requests.post(end_point + user + "/" + jobId, files=files, auth=(user, pwd))
