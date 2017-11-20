@@ -20,10 +20,10 @@ Usage:
 
 """
 
-VERSION = '0.1.1'
+VERSION = '0.1.2'
 
 __author__ = "jcgonzalez" # Refactoring from ESDC Euclid Team code
-__credits__ = ["ESDC Euclid Team"]
+__credits__ = ["S,Nieto", "ESDC Euclid Team"]
 __version__ = VERSION
 __email__ = "jcgonzalez@sciops.esa.int"
 __status__ = "Prototype" # Prototype | Development | Production
