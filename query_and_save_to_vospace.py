@@ -60,7 +60,7 @@ def main():
                                      "CIRCLE('ICRS',16.41683,4.90781, 26)) " +
                     "ORDER BY dist ASC", 
                folder='queries', file_name='my_query_results.csv', 
-               user='jgonza04', pwd='pr07Eom1c$')
+               user='user', pwd='password')
 
 
 if __name__ == '__main__':
