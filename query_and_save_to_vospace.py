@@ -12,7 +12,7 @@ Usage:
 
 
 from eas.eas_qry import EAS_Query
-from vos.vos_push import VOSpace_Push
+from vos.vos_handler import VOSpace_Handler
 
 import sys
 
@@ -29,7 +29,7 @@ def exec_query(adql, folder, file_name, user, pwd):
     fits_data = easHdl.results_as_fits_table()
 
     #print(easHdl.results())
-    vos = VOSpace_Push()
+    vos = VOSpace_Handler()
     if not vos.save_to_file(folder=folder, file=file_name,
                             content=easHdl.results(),
                             user=user, pwd=pwd):
@@ -43,6 +43,10 @@ def exec_query(adql, folder, file_name, user, pwd):
     vos.save_file(folder=folder, file=file_name + ".2.fits",
                   local_file="results.fits",
                   user=user, pwd=pwd)
+
+    vos.retrieve_file(folder='', file='queries',
+                      local_file='queries.zip',
+                      user=user, pwd=pwd)
 
     print("File '{}' with query results stored in your VOSpace folder {}".format(file_name, folder))
 

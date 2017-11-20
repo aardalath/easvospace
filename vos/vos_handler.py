@@ -35,7 +35,7 @@ import requests
 import sys
 
 
-class VOSpace_Push(object):
+class VOSpace_Handler(object):
     '''
     Main class to encapsulate VOSpace storage functions
     '''
@@ -43,11 +43,11 @@ class VOSpace_Push(object):
     VOSpace_Url = 'https://vospace.esac.esa.int/vospace'
 
     Tx_XML_File = """<vos:transfer xmlns:vos="http://www.ivoa.net/xml/VOSpace/v2.0">
-                        <vos:target>vos://esavo!vospace/{}/{}</vos:target>
-                        <vos:direction>pushToVoSpace</vos:direction>
-                        <vos:view uri="vos://esavo!vospace/core#fits"/>
-                        <vos:protocol uri="vos://esavo!vospace/core#httpput"/>
-                    </vos:transfer>"""
+                         <vos:target>vos://esavo!vospace/{}/{}</vos:target>
+                         <vos:direction>{}</vos:direction>
+                         <vos:view uri="vos://esavo!vospace/core#fits"/>
+                         <vos:protocol uri="vos://esavo!vospace/core#httpput"/>
+                     </vos:transfer>"""
 
     def __init__(self):
         """Initialize object (class instance) attributes."""
@@ -74,13 +74,13 @@ class VOSpace_Push(object):
 
         #print ("Saving query results in VOSpace private account for user: " + user)
 
-        transfer_url = VOSpace_Push.VOSpace_Url + '/servlet/transfers/async?PHASE=RUN'
-        end_point = VOSpace_Push.VOSpace_Url + '/service/data/'
+        transfer_url = VOSpace_Handler.VOSpace_Url + '/servlet/transfers/async?PHASE=RUN'
+        end_point = VOSpace_Handler.VOSpace_Url + '/service/data/'
 
-        metadataTransfer = 'transfer_pushi_to_a.xml'  # Contains the path where to store the output file
+        metadataTransfer = 'transfer_push_to_a.xml'  # Contains the path where to store the output file
         toupload = file  # Name of the file to be uploaded in VOSpace
 
-        txData = VOSpace_Push.Tx_XML_File.format(user,folder)
+        txData = VOSpace_Handler.Tx_XML_File.format(user, folder, 'pushToVoSpace')
         #print(txData + '\n');
         files = {'file': (metadataTransfer, txData)}
 
@@ -140,6 +140,93 @@ class VOSpace_Push(object):
             # Read the whole file at once
             bin_data = bin_file.read()
         return self.save_to_file(folder, file, bin_data, user, pwd)
+
+    def retrieve_from_file(self, folder, file, user=None, pwd=None):
+        """Makes a retrieval request, followed by the retrieval of the actual data to be
+                stored in a local file.  The VOSpace user credentials are needed."""
+        if user is None or pwd is None:
+            if not self.vospace_auth_set:
+                print ("ERROR: VOSpace credentials not provided")
+                sys.exit(1)
+            else:
+                user = self.vospace_user
+                pwd = self.vospace_pwd
+
+        # URL for Download request
+        transfer_url = VOSpace_Handler.VOSpace_Url + '/servlet/transfers/async?PHASE=RUN'
+        end_point = VOSpace_Handler.VOSpace_Url + '/service/data/'
+
+        metadataTransfer = 'transfer_pull_from_a.xml'  # Contains the path where to store the output file
+        todownload = file
+
+        txData = VOSpace_Handler.Tx_XML_File.format(user, folder, 'pullFromVoSpace')
+        #print(txData + '\n');
+        files = {'file': (metadataTransfer, txData)}
+
+        # initial negotiation
+        try:
+            upload_request = requests.post(transfer_url, files=files, auth=(user, pwd), verify=False)
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            print (upload_request.text)
+        else:  # 200
+            # print (upload_request.status_code)
+            redirection = upload_request.url
+            jobid = redirection[redirection.rfind('/') + 1:]
+            # print ("Job id: " + jobid)
+            upload_request.close()
+
+        # Check job status till completed phase
+        while True:
+            request = requests.get(redirection, auth=(user, pwd), verify=False)
+            # XML response: parse it to obtain the current status
+            data = request.text
+            dom = parseString(data)
+            phaseElement = dom.getElementsByTagName('uws:phase')[0]
+            phaseValueElement = phaseElement.firstChild
+            phase = phaseValueElement.toxml()
+            print ("Status: " + phase)
+            # Check finished
+            if phase == 'COMPLETED': break
+            if phase == 'ERROR': exit(1)
+            # wait and repeat
+            time.sleep(0.3)
+
+        # Open XML document using minidom parser
+        DOMTree = parseString(data)
+        collection = DOMTree.documentElement
+        jobId_element = collection.getElementsByTagName('uws:jobId')[0]
+        jobId = jobId_element.childNodes[0].data
+
+        content = ''
+
+        try:
+            download = requests.get(end_point + user + "/" + jobId, auth=(user, pwd), verify=False)
+        except requests.exceptions.RequestException as e:  # This is the correct syntax
+            print (download.text)
+            exit(1)
+        else:  # 200
+            content = download.content
+            # with open(todownload, 'wb') as f:
+            #     f.write(download.content)
+            # # print(upload_post.text)
+            # redirection_upload = download.url
+            # jobid = redirection_upload[redirection_upload.rfind('/') + 1:]
+            # #print ("Job id: " + jobid)
+            download.close()
+
+        result = download.ok:
+        # Asynchronous job to be removed from the jobs queue
+        # curl -v -u <user> -X DELETE "https://localhost:8443/vospace/servlet/transfers/async/<job_Id>"
+        request = requests.delete(redirection, auth=(user, pwd), verify=False)
+        #print(request.status_code)
+        return content
+
+    def retrieve_file(self, folder, file, local_file, user=None, pwd=None):
+        """Makes a retrieval request, followed by the retrieval of the actual data to be
+                stored in a local file.  The VOSpace user credentials are needed."""
+        with open(local_file, "wb") as bin_file:
+            # Read the whole file at once
+            bin_file.write(self.retrieve_from_file(folder, file, user, pwd))
 
 
 def main():
