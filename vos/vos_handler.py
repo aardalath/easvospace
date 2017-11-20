@@ -189,7 +189,7 @@ class VOSpace_Handler(object):
             if phase == 'COMPLETED': break
             if phase == 'ERROR': exit(1)
             # wait and repeat
-            time.sleep(0.3)
+            sleep(0.3)
 
         # Open XML document using minidom parser
         DOMTree = parseString(data)
@@ -214,7 +214,7 @@ class VOSpace_Handler(object):
             # #print ("Job id: " + jobid)
             download.close()
 
-        result = download.ok:
+        result = download.ok
         # Asynchronous job to be removed from the jobs queue
         # curl -v -u <user> -X DELETE "https://localhost:8443/vospace/servlet/transfers/async/<job_Id>"
         request = requests.delete(redirection, auth=(user, pwd), verify=False)
