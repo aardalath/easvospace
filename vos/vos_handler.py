@@ -19,7 +19,7 @@ Usage:
 
 """
 
-VERSION = '0.1.2'
+VERSION = '0.1.3'
 
 __author__ = "jcgonzalez" # Refactoring from ESDC Euclid Team code
 __credits__ = ["S,Nieto", "ESDC Euclid Team"]

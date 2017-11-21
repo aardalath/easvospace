@@ -7,7 +7,7 @@ a VOSpace file.
 Please, note that this is a Python 3 code.  Compatibility with Python 2
 is still ongoing.
 
-This is still a work in progress.  It can be considered as the version 0.1.2.
+This is still a work in progress.  It can be considered as the version 0.1.3.
 
 To test the two packages provided, just follow these steps:
 
