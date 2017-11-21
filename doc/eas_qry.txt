@@ -90,18 +90,18 @@ FUNCTIONS
         a floating point number for subsecond precision.
 
 DATA
-    VERSION = '0.1.1'
+    VERSION = '0.1.2'
     __email__ = 'jcgonzalez@sciops.esa.int'
     __status__ = 'Prototype'
 
 VERSION
-    0.1.1
+    0.1.2
 
 AUTHOR
     jcgonzalez
 
 CREDITS
-    ['ESDC Euclid Team']
+    ['S,Nieto', 'ESDC Euclid Team']
 
 FILE
     /home/eucops/Work/Euclid/EAStoVOSpace/eas/eas_qry.py

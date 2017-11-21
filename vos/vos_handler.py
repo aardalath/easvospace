@@ -34,6 +34,14 @@ from xml.dom.minidom import parseString
 import requests
 import sys
 
+requests.packages.urllib3.disable_warnings()
+
+try:
+    import urllib3
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+except:
+    from requests.packages.urllib3.exceptions import InsecureRequestWarning
+    requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 class VOSpace_Handler(object):
     '''
@@ -87,7 +95,7 @@ class VOSpace_Handler(object):
         try:
             upload_request = requests.post(transfer_url, files=files, auth=(user, pwd))
         except requests.exceptions.RequestException as e:  # This is the correct syntax
-            print (upload_request.text)
+            #print (upload_request.text)
             sys.exit(1)
         else:  # 200
             redirection = upload_request.url
@@ -122,7 +130,7 @@ class VOSpace_Handler(object):
         try:
             upload_post = requests.post(end_point + user + "/" + jobId, files=files, auth=(user, pwd))
         except requests.exceptions.RequestException as e:  # This is the correct syntax
-            print (upload_post.text)
+            #print (upload_post.text)
             sys.exit(1)
         else:  # 200
             #print(upload_post.text)
@@ -167,12 +175,12 @@ class VOSpace_Handler(object):
         try:
             upload_request = requests.post(transfer_url, files=files, auth=(user, pwd), verify=False)
         except requests.exceptions.RequestException as e:  # This is the correct syntax
-            print (upload_request.text)
+            print ("PROBLEM UPLOAD: " + upload_request.text)
         else:  # 200
-            # print (upload_request.status_code)
+            #print (upload_request.status_code)
             redirection = upload_request.url
             jobid = redirection[redirection.rfind('/') + 1:]
-            # print ("Job id: " + jobid)
+            #print ("Job id: " + jobid)
             upload_request.close()
 
         # Check job status till completed phase
@@ -184,7 +192,7 @@ class VOSpace_Handler(object):
             phaseElement = dom.getElementsByTagName('uws:phase')[0]
             phaseValueElement = phaseElement.firstChild
             phase = phaseValueElement.toxml()
-            print ("Status: " + phase)
+            #print ("Status: " + phase)
             # Check finished
             if phase == 'COMPLETED': break
             if phase == 'ERROR': exit(1)
@@ -202,16 +210,16 @@ class VOSpace_Handler(object):
         try:
             download = requests.get(end_point + user + "/" + jobId, auth=(user, pwd), verify=False)
         except requests.exceptions.RequestException as e:  # This is the correct syntax
-            print (download.text)
+            print ("PROBLEM: " + download.text)
             exit(1)
         else:  # 200
             content = download.content
             # with open(todownload, 'wb') as f:
             #     f.write(download.content)
             # # print(upload_post.text)
-            # redirection_upload = download.url
-            # jobid = redirection_upload[redirection_upload.rfind('/') + 1:]
-            # #print ("Job id: " + jobid)
+            redirection_upload = download.url
+            jobid = redirection_upload[redirection_upload.rfind('/') + 1:]
+            #print ("Job id: " + jobid)
             download.close()
 
         result = download.ok

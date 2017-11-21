@@ -1,7 +1,7 @@
-Help on module vos_push:
+Help on module vos_handler:
 
 NAME
-    vos_push - EAS_Query class from package eas
+    vos_handler - EAS_Query class from package eas
 
 DESCRIPTION
     This module incorporates almost without modification the code provided
@@ -21,15 +21,23 @@ DESCRIPTION
 
 CLASSES
     builtins.object
-        VOSpace_Push
+        VOSpace_Handler
     
-    class VOSpace_Push(builtins.object)
+    class VOSpace_Handler(builtins.object)
      |  Main class to encapsulate VOSpace storage functions
      |  
      |  Methods defined here:
      |  
      |  __init__(self)
      |      Initialize object (class instance) attributes.
+     |  
+     |  retrieve_file(self, folder, file, local_file, user=None, pwd=None)
+     |      Makes a retrieval request, followed by the retrieval of the actual data to be
+     |      stored in a local file.  The VOSpace user credentials are needed.
+     |  
+     |  retrieve_from_file(self, folder, file, user=None, pwd=None)
+     |      Makes a retrieval request, followed by the retrieval of the actual data to be
+     |      stored in a local file.  The VOSpace user credentials are needed.
      |  
      |  save_file(self, folder, file, local_file, user, pwd)
      |      Makes a storage request, followed by the sending the actual data to be
@@ -54,7 +62,7 @@ CLASSES
      |  ----------------------------------------------------------------------
      |  Data and other attributes defined here:
      |  
-     |  Tx_XML_File = '<vos:transfer xmlns:vos="http://www.ivoa.net/xml...re#h...
+     |  Tx_XML_File = '<vos:transfer xmlns:vos="http://www.ivoa.net/xml...e#ht...
      |  
      |  VOSpace_Url = 'https://vospace.esac.esa.int/vospace'
 
@@ -69,20 +77,20 @@ FUNCTIONS
         a floating point number for subsecond precision.
 
 DATA
-    VERSION = '0.1.1'
+    VERSION = '0.1.2'
     __email__ = 'jcgonzalez@sciops.esa.int'
     __status__ = 'Prototype'
 
 VERSION
-    0.1.1
+    0.1.2
 
 AUTHOR
     jcgonzalez
 
 CREDITS
-    ['ESDC Euclid Team']
+    ['S,Nieto', 'ESDC Euclid Team']
 
 FILE
-    /home/eucops/Work/Euclid/EAStoVOSpace/vos/vos_push.py
+    /home/eucops/Work/Euclid/EAStoVOSpace/vos/vos_handler.py
 
 

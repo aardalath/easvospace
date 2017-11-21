@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<html><head><title>Python: module vos_push</title>
+<html><head><title>Python: module vos_handler</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head><body bgcolor="#f0f0f8">
 
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
 <tr bgcolor="#7799ee">
 <td valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>vos_push</strong></big></big> (version 0.1.1)</font></td
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>vos_handler</strong></big></big> (version 0.1.2)</font></td
 ><td align=right valign=bottom
-><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/eucops/Work/Euclid/EAStoVOSpace/vos/vos_push.py">/home/eucops/Work/Euclid/EAStoVOSpace/vos/vos_push.py</a></font></td></tr></table>
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/eucops/Work/Euclid/EAStoVOSpace/vos/vos_handler.py">/home/eucops/Work/Euclid/EAStoVOSpace/vos/vos_handler.py</a></font></td></tr></table>
     <p><tt>EAS_Query&nbsp;class&nbsp;from&nbsp;package&nbsp;eas<br>
 &nbsp;<br>
 This&nbsp;module&nbsp;incorporates&nbsp;almost&nbsp;without&nbsp;modification&nbsp;the&nbsp;code&nbsp;provided<br>
@@ -17,7 +17,7 @@ user&nbsp;VOSpace&nbsp;account.<br>
 &nbsp;<br>
 Usage:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;sequence&nbsp;of&nbsp;commands&nbsp;to&nbsp;perform&nbsp;a&nbsp;query&nbsp;would&nbsp;be<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;Create&nbsp;the&nbsp;<a href="#VOSpace_Push">VOSpace_Push</a>&nbsp;<a href="builtins.html#object">object</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.&nbsp;Create&nbsp;the&nbsp;VOSpace_Push&nbsp;<a href="builtins.html#object">object</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.&nbsp;Call&nbsp;the&nbsp;``save_to_file``&nbsp;method&nbsp;to&nbsp;store&nbsp;something&nbsp;in&nbsp;a<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VOSpace&nbsp;folder/file<br>
 &nbsp;<br>
@@ -34,7 +34,8 @@ Usage:<br>
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="requests.html">requests</a><br>
 </td><td width="25%" valign=top><a href="sys.html">sys</a><br>
-</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+</td><td width="25%" valign=top><a href="urllib3.html">urllib3</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -45,7 +46,7 @@ Usage:<br>
 <dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
 </font></dt><dd>
 <dl>
-<dt><font face="helvetica, arial"><a href="vos_push.html#VOSpace_Push">VOSpace_Push</a>
+<dt><font face="helvetica, arial"><a href="vos_handler.html#VOSpace_Handler">VOSpace_Handler</a>
 </font></dt></dl>
 </dd>
 </dl>
@@ -53,21 +54,27 @@ Usage:<br>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#000000" face="helvetica, arial"><a name="VOSpace_Push">class <strong>VOSpace_Push</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+<font color="#000000" face="helvetica, arial"><a name="VOSpace_Handler">class <strong>VOSpace_Handler</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt>Main&nbsp;class&nbsp;to&nbsp;encapsulate&nbsp;VOSpace&nbsp;storage&nbsp;functions<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="VOSpace_Push-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialize&nbsp;<a href="builtins.html#object">object</a>&nbsp;(class&nbsp;instance)&nbsp;attributes.</tt></dd></dl>
+<dl><dt><a name="VOSpace_Handler-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Initialize&nbsp;<a href="builtins.html#object">object</a>&nbsp;(class&nbsp;instance)&nbsp;attributes.</tt></dd></dl>
 
-<dl><dt><a name="VOSpace_Push-save_file"><strong>save_file</strong></a>(self, folder, file, local_file, user, pwd)</dt><dd><tt>Makes&nbsp;a&nbsp;storage&nbsp;request,&nbsp;followed&nbsp;by&nbsp;the&nbsp;sending&nbsp;the&nbsp;actual&nbsp;data&nbsp;to&nbsp;be<br>
+<dl><dt><a name="VOSpace_Handler-retrieve_file"><strong>retrieve_file</strong></a>(self, folder, file, local_file, user=None, pwd=None)</dt><dd><tt>Makes&nbsp;a&nbsp;retrieval&nbsp;request,&nbsp;followed&nbsp;by&nbsp;the&nbsp;retrieval&nbsp;of&nbsp;the&nbsp;actual&nbsp;data&nbsp;to&nbsp;be<br>
+stored&nbsp;in&nbsp;a&nbsp;local&nbsp;file.&nbsp;&nbsp;The&nbsp;VOSpace&nbsp;user&nbsp;credentials&nbsp;are&nbsp;needed.</tt></dd></dl>
+
+<dl><dt><a name="VOSpace_Handler-retrieve_from_file"><strong>retrieve_from_file</strong></a>(self, folder, file, user=None, pwd=None)</dt><dd><tt>Makes&nbsp;a&nbsp;retrieval&nbsp;request,&nbsp;followed&nbsp;by&nbsp;the&nbsp;retrieval&nbsp;of&nbsp;the&nbsp;actual&nbsp;data&nbsp;to&nbsp;be<br>
+stored&nbsp;in&nbsp;a&nbsp;local&nbsp;file.&nbsp;&nbsp;The&nbsp;VOSpace&nbsp;user&nbsp;credentials&nbsp;are&nbsp;needed.</tt></dd></dl>
+
+<dl><dt><a name="VOSpace_Handler-save_file"><strong>save_file</strong></a>(self, folder, file, local_file, user, pwd)</dt><dd><tt>Makes&nbsp;a&nbsp;storage&nbsp;request,&nbsp;followed&nbsp;by&nbsp;the&nbsp;sending&nbsp;the&nbsp;actual&nbsp;data&nbsp;to&nbsp;be<br>
 stored&nbsp;in&nbsp;the&nbsp;desired&nbsp;folder/file.&nbsp;&nbsp;The&nbsp;VOSpace&nbsp;user&nbsp;credentials&nbsp;are&nbsp;needed.</tt></dd></dl>
 
-<dl><dt><a name="VOSpace_Push-save_to_file"><strong>save_to_file</strong></a>(self, folder, file, content, user=None, pwd=None)</dt><dd><tt>Makes&nbsp;a&nbsp;storage&nbsp;request,&nbsp;followed&nbsp;by&nbsp;the&nbsp;sending&nbsp;the&nbsp;actual&nbsp;data&nbsp;to&nbsp;be<br>
+<dl><dt><a name="VOSpace_Handler-save_to_file"><strong>save_to_file</strong></a>(self, folder, file, content, user=None, pwd=None)</dt><dd><tt>Makes&nbsp;a&nbsp;storage&nbsp;request,&nbsp;followed&nbsp;by&nbsp;the&nbsp;sending&nbsp;the&nbsp;actual&nbsp;data&nbsp;to&nbsp;be<br>
 stored&nbsp;in&nbsp;the&nbsp;desired&nbsp;folder/file.&nbsp;&nbsp;The&nbsp;VOSpace&nbsp;user&nbsp;credentials&nbsp;are&nbsp;needed.</tt></dd></dl>
 
-<dl><dt><a name="VOSpace_Push-set_auth"><strong>set_auth</strong></a>(self, user, pwd)</dt><dd><tt>Specifies&nbsp;the&nbsp;VOSpace&nbsp;user/passsword&nbsp;credentials&nbsp;to&nbsp;be&nbsp;used.</tt></dd></dl>
+<dl><dt><a name="VOSpace_Handler-set_auth"><strong>set_auth</strong></a>(self, user, pwd)</dt><dd><tt>Specifies&nbsp;the&nbsp;VOSpace&nbsp;user/passsword&nbsp;credentials&nbsp;to&nbsp;be&nbsp;used.</tt></dd></dl>
 
 <hr>
 Data descriptors defined here:<br>
@@ -79,7 +86,7 @@ Data descriptors defined here:<br>
 </dl>
 <hr>
 Data and other attributes defined here:<br>
-<dl><dt><strong>Tx_XML_File</strong> = '&lt;vos:transfer xmlns:vos="http://www.ivoa.net/xml...re#httpput"/&gt;<font color="#c040c0">\n</font>                    &lt;/vos:transfer&gt;'</dl>
+<dl><dt><strong>Tx_XML_File</strong> = '&lt;vos:transfer xmlns:vos="http://www.ivoa.net/xml...e#httpput"/&gt;<font color="#c040c0">\n</font>                     &lt;/vos:transfer&gt;'</dl>
 
 <dl><dt><strong>VOSpace_Url</strong> = 'https://vospace.esac.esa.int/vospace'</dl>
 
@@ -90,7 +97,7 @@ Data and other attributes defined here:<br>
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><tt>Sample&nbsp;usage&nbsp;of&nbsp;the&nbsp;<a href="#VOSpace_Push">VOSpace_Push</a>&nbsp;class</tt></dd></dl>
+<td width="100%"><dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><tt>Sample&nbsp;usage&nbsp;of&nbsp;the&nbsp;VOSpace_Push&nbsp;class</tt></dd></dl>
  <dl><dt><a name="-sleep"><strong>sleep</strong></a>(...)</dt><dd><tt><a href="#-sleep">sleep</a>(seconds)<br>
 &nbsp;<br>
 Delay&nbsp;execution&nbsp;for&nbsp;a&nbsp;given&nbsp;number&nbsp;of&nbsp;seconds.&nbsp;&nbsp;The&nbsp;argument&nbsp;may&nbsp;be<br>
@@ -102,7 +109,7 @@ a&nbsp;floating&nbsp;point&nbsp;number&nbsp;for&nbsp;subsecond&nbsp;precision.</
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>VERSION</strong> = '0.1.1'<br>
+<td width="100%"><strong>VERSION</strong> = '0.1.2'<br>
 <strong>__email__</strong> = 'jcgonzalez@sciops.esa.int'<br>
 <strong>__status__</strong> = 'Prototype'</td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
@@ -118,5 +125,5 @@ a&nbsp;floating&nbsp;point&nbsp;number&nbsp;for&nbsp;subsecond&nbsp;precision.</
 <font color="#ffffff" face="helvetica, arial"><big><strong>Credits</strong></big></font></td></tr>
     
 <tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%">['ESDC&nbsp;Euclid&nbsp;Team']</td></tr></table>
+<td width="100%">['S,Nieto',&nbsp;'ESDC&nbsp;Euclid&nbsp;Team']</td></tr></table>
 </body></html>
