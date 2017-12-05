@@ -101,7 +101,7 @@ AUTHOR
     jcgonzalez
 
 CREDITS
-    ['S,Nieto', 'ESDC Euclid Team']
+    ['S.Nieto', 'ESDC Euclid Team']
 
 FILE
     /home/eucops/Work/Euclid/EAStoVOSpace/eas/eas_qry.py

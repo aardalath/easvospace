@@ -88,7 +88,7 @@ AUTHOR
     jcgonzalez
 
 CREDITS
-    ['S,Nieto', 'ESDC Euclid Team']
+    ['S.Nieto', 'ESDC Euclid Team']
 
 FILE
     /home/eucops/Work/Euclid/EAStoVOSpace/vos/vos_handler.py
