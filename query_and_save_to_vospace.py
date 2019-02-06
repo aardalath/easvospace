@@ -26,12 +26,12 @@ def main():
     """
 
     # Define query and request parameters
-    adql = """SELECT DISTANCE(POINT('ICRS', rightascension, declination), 
-                              POINT('ICRS',16.41683,4.90781)) AS dist, 
-                     * FROM sc3_mer_cat_10 
-              WHERE 1=CONTAINS(POINT('ICRS', rightascension, declination), 
-                               CIRCLE('ICRS',16.41683,4.90781, 26)) 
-              ORDER BY dist ASC"""
+    adql = '''SELECT rightascension, declination, fluxgextdecamaper, fluxvisaper, fluxrextdecamaper, 
+                     fluxiextdecamaper, fluxzextdecamaper,  fluxyaper, fluxjaper, fluxhaper
+              FROM public.sc3_mer 
+              WHERE (fluxgextdecamaper > 10)
+              AND  starflag=0
+              ORDER by fluxyaper DESC'''
 
     user = 'eucops'
     pwd = 'Eu314_clid'
