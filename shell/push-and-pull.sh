@@ -59,8 +59,7 @@ pushRegFile=$(pwd)/pushToVoSpace.xml
 echo $line; echo "## 1 - JOB REGISTRATION"; echo $line
 
 ## 1 - Job registration
-${CURL} -X POST -F upload=@${pushRegFile} "${url_transfer}?PHASE=RUN" 2>&1 | tr -d '
-' | tee pushreg.out
+${CURL} -X POST -F upload=@${pushRegFile} "${url_transfer}?PHASE=RUN" 2>&1 | tr -d '\r' | tee pushreg.out
 
 job_id=$(awk -F\/ '/Location:/{print $NF;}' pushreg.out)
 echo "Job ID: ${job_id}"
@@ -70,16 +69,14 @@ sleep 2
 echo $line; echo "## 2 - FILE UPLOAD"; echo $line
 
 ## 2 - Upload of file
-${CURL} -X POST -F "file=@${file_to_upl}" "${url_upload}/${user}/${job_id}" 2>&1 | tr -d '
-' | tee pushupl.out
+${CURL} -X POST -F "file=@${file_to_upl}" "${url_upload}/${user}/${job_id}" 2>&1 | tr -d '\r' | tee pushupl.out
 
 sleep 2
 
 echo $line; echo "## 3 - JOB DELETION"; echo $line
 
 ## 3 - Job deletion
-${CURL} -X DELETE "${url_transfer}/${job_id}" 2>&1 | tr -d '
-' | tee pushdel.out
+${CURL} -X DELETE "${url_transfer}/${job_id}" 2>&1 | tr -d '\r' | tee pushdel.out
 
 sleep 5
 
@@ -94,8 +91,7 @@ pullRegFile=$(pwd)/pullFromVoSpace.xml
 echo $line; echo "## 1 - JOB REGISTRATION"; echo $line
 
 ## 1 - Job registration
-${CURL} -X POST -F download=@${pullRegFile} "${url_transfer}?PHASE=RUN" 2>&1 | tr -d '
-' | tee pullreg.out
+${CURL} -X POST -F download=@${pullRegFile} "${url_transfer}?PHASE=RUN" 2>&1 | tr -d '\r' | tee pullreg.out
 
 job_id=$(awk -F\/ '/Location:/{print $NF;}' pullreg.out)
 echo "Job ID: ${job_id}"
@@ -112,8 +108,7 @@ sleep 2
 echo $line; echo "## 3 - JOB DELETION"; echo $line
 
 ## 3 - Job deletion
-${CURL} -X DELETE "${url_transfer}/${job_id}" 2>&1 | tr -d '
-' | tee pulldel.out
+${CURL} -X DELETE "${url_transfer}/${job_id}" 2>&1 | tr -d '\r' | tee pulldel.out
 
 echo $line ; echo "Comparing uploaded and downloaded files . . ."
 
