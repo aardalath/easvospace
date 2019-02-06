@@ -33,8 +33,8 @@ def main():
                                CIRCLE('ICRS',16.41683,4.90781, 26)) 
               ORDER BY dist ASC"""
 
-    user = 'user'
-    pwd = 'password'
+    user = 'eucops'
+    pwd = 'Eu314_clid'
 
     # Perform query
     easHdl = EAS_Query()
