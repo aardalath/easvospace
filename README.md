@@ -23,3 +23,4 @@ A file with the name provided will be saved into the location your selected,
 in your VOSpace account.
 
 
+For an example of a working set of upload/download

@@ -33,6 +33,7 @@ from time import sleep
 from threading import Thread
 from xml.dom.minidom import parseString
 from astropy.io import ascii,fits
+#from pprint import pprint
 
 import os, tempfile
 import numpy as np
@@ -45,7 +46,7 @@ class EAS_Query(object):
     Main class to encapsulate query jobs for EAS
     """
 
-    EAS_TAP_URL = "http://eas.esac.esa.int/tap-dev/tap/async"
+    EAS_TAP_URL = "https://eas.esac.esa.int/tap-dev/tap/async"
 
     Content_Type = "application/x-www-form-urlencoded"
     MIME_Text_Plain = "text/plain"
@@ -97,8 +98,10 @@ class EAS_Query(object):
             self.request = urlrequest.Request(self.connection_url, method="GET")
             self.connection = urlrequest.urlopen(self.request)
             data = self.connection.read().decode("UTF-8")
+            #print(">>> ",data)
             # XML response: parse it to obtain the current status
             dom = parseString(data)
+            #print("[[[{}]]]".format(dom.toprettyxml()))  #### <<<<<====================
             phaseElement = dom.getElementsByTagName('uws:phase')[0]
             phaseValueElement = phaseElement.firstChild
             phase = phaseValueElement.toxml()
